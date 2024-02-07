@@ -1,8 +1,5 @@
 import pg from 'pg';
-import dotenv from 'dotenv';
 const { Pool } = pg;
-
-dotenv.config();
 
 const localPoolConfig = {
   user: process.env.DB_LOCAL_USER,
