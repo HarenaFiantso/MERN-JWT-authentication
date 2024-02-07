@@ -1,8 +1,7 @@
 import express from 'express';
 import pool from '../config/database-config';
 import bcrypt from 'bcrypt';
-import { jwtTokens } from ''
-
+import { jwtTokens } from '../utils/jwt-helpers';
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
@@ -19,6 +18,16 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Incorrect password' });
     }
 
-    const tokens = jwtTokens
-  } catch (error) {}
+    const tokens = jwtTokens(users.rows[0]);
+
+    res.cookie('refresh_token', tokens.refreshToken, {
+      ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN }),
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
+    res.json(tokens);
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
 });
