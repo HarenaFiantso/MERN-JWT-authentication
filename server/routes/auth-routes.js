@@ -1,7 +1,8 @@
 import express from 'express';
-import pool from '../config/database-config';
+import pool from '../config/database-config.js';
 import bcrypt from 'bcrypt';
-import { jwtTokens } from '../utils/jwt-helpers';
+import { jwtTokens } from '../utils/jwt-helpers.js';
+
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
@@ -31,3 +32,5 @@ router.post('/login', async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 });
+
+export default router;
