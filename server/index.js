@@ -14,6 +14,7 @@ app.use('/hello', (res, req) => {
   req.send('Hello World');
 });
 app.use('/', express.static(join(__dirname, 'public')));
+app.use('/api/auth', authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
